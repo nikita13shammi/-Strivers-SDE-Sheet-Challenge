@@ -1,0 +1,106 @@
+#include <bits/stdc++.h> 
+/*************************************************************
+
+	Following is the Node class structure
+
+		class Node
+		{
+		public:
+		    int data;
+		    Node *next;
+		    Node *random;
+		    Node(int data)
+		    {
+		        this->data = data;
+		        this->next = NULL;
+		        this->random = NULL;
+		    }
+		    ~Node()
+		    {
+		        if (next)
+		        {
+		            delete next;
+		        }
+		    }
+		};
+
+*************************************************************/
+void insertAtTail(Node* &head,Node* &tail,int d)
+{
+	Node* newnode=new Node(d);
+	if(head==NULL)
+	{
+		head=newnode;
+		tail=newnode;
+	}
+	else
+	{
+		tail->next=newnode;
+		tail=newnode;
+	}
+}
+
+Node *cloneLL(Node *head)
+{
+	//step 1 : create clone List using original node's next pointer
+	Node* clonehead=NULL;
+	Node* clonetail=NULL;
+
+	Node* temp=head;
+	while(temp!=NULL)
+	{
+		insertAtTail(clonehead,clonetail,temp->data);
+		temp=temp->next;
+	}
+
+	//step2 : add the clone nodes between original nodes
+	Node* originalNode=head;
+	Node* cloneNode=clonehead;
+
+	while(originalNode!=NULL && cloneNode!=NULL)
+	{
+		Node* next=originalNode->next;
+		originalNode->next=cloneNode;
+		originalNode=next;
+
+		next=cloneNode->next;
+		cloneNode->next=originalNode;
+		cloneNode=next;
+	}
+	
+	//step3: copy the random pointers
+
+	originalNode=head;
+	cloneNode=clonehead;
+
+	while(originalNode!=NULL && cloneNode!=NULL)
+	{
+		if(originalNode->random != NULL)
+			cloneNode->random= originalNode->random->next;
+
+		else
+			cloneNode->random=NULL;
+
+		originalNode=originalNode->next;
+		cloneNode=cloneNode->next;
+	}
+
+	//step 4: revert the changes done in step 2
+	originalNode=head;
+	cloneNode=clonehead;
+	
+	while(originalNode!=NULL && cloneNode!=NULL)
+	{
+		originalNode->next=cloneNode->next;
+		originalNode=originalNode->next;
+
+		if(originalNode!=NULL)
+		{
+			cloneNode->next=originalNode->next;
+		}
+		cloneNode=cloneNode->next;
+	}
+	
+
+	return clonehead;
+}
