@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+int consecutiveOnes(vector<int>& arr){
+    //Write your code here.
+    int cnt=0;
+    int maxi=INT_MIN;
+    int n=arr.size();
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]!= 1)
+            cnt=0;
+        if(arr[i]==1)
+            cnt++;
+        maxi=max(maxi,cnt);
+    }
+    return maxi;
+}
