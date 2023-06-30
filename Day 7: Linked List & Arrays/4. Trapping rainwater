@@ -1,0 +1,31 @@
+#include <bits/stdc++.h> 
+long getTrappedWater(long *arr, int n){
+    long l=0;
+    long r=n-1;
+    long leftmax=0;
+    long rigthmax=0;
+    long res=0;
+
+    while(l<=r)
+    {
+        if(arr[l]<=arr[r])
+        {
+            if(arr[l]>leftmax)
+                leftmax=arr[l];
+            else
+                res+=(leftmax-arr[l]);
+            
+            l++;
+        }
+        else
+        {
+            if(arr[r]>rigthmax)
+                rigthmax=arr[r];
+            else
+                res+=(rigthmax-arr[r]);
+            
+            r--;
+        }
+    }
+    return res;
+}
